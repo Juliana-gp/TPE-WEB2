@@ -37,8 +37,8 @@ class UserController{
             $user = $this->model->getUser($nameUser);
 
             session_start();
-            $_SESSION['USERNAME'] = $nameUser;
             if ($user && password_verify($password, $user->password)){
+                $_SESSION['USERNAME'] = $nameUser;
                 $this->view->showHome();
             }
             else{
