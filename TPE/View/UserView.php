@@ -27,7 +27,7 @@ class UserView{
     function showNewUser($error = ""){
         $this ->smarty->assign('error', $error);
         $this ->smarty->assign('title', 'Crear Usuario');
-        $this ->smarty->assign('action', 'add');     
+        $this ->smarty->assign('action', 'crear');     
         $this ->smarty->assign('btnTitle', 'Crear'); 
         $this ->smarty->assign('text', 'Si ya tienes usuario, puedes hacer click aquí');
         $this ->smarty->assign('action2', ''); 
