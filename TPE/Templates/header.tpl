@@ -13,7 +13,8 @@
     
     <header>
         <a href="genero/home"><img src="images/logo.png" alt="Logo biblioteca" id="logo"></a>   
-        {if $logged}
+    
+        {if isset($smarty.session.USERNAME)}
             <nav>
                 <li class="btn"><a href="genero/home">Home</a></li>
                 <li class="btn"><a href="libro/">Gestor</a></li>

@@ -19,7 +19,8 @@ class UserController{
     function add(){
         if(isset($_POST['usuario'], $_POST['password'])) {
             $this->model->addUser();
-            $this->view->showLoginForm();
+            $_SESSION['USERNAME'] = $_POST['usuario'];
+            $this->view->showHome();
         } else {
             $this->view->showNewUser();
         }
