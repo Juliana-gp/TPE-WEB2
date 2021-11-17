@@ -44,31 +44,27 @@ class BooksController{
     function filterByGenre($genreId){
         $books = $this->model->getByGenre($genreId);
         $genre = $this->modelGenre->getItem($genreId);
-        $logged = $this->authHelper->isLogged();
-        $this->view->list($logged, $books, $genre);
+        $this->view->list($books, $genre);
     }
 
     function showAdm(){
         $this->authHelper->checkLoggedIn(); 
 
-        $logged = true;
         $genres = $this->modelGenre->getNameAndId();
         $books = $this->model->getAll();
-        $this->view->adm($logged, $books, $genres);
+        $this->view->adm($books, $genres);
     }
 
     function showHome(){    
-        $logged = $this->authHelper->isLogged();
         $genres = $this->modelGenre->getNameAndId();
         $books = $this->model->getAll();
-        $this->view->main($logged, $books, $genres);
+        $this->view->main($books, $genres);
     }
     
     function showItem($id){
-        $logged = $this->authHelper->isLogged();
         $item = $this->model->getItem($id);
         $genre = $this->modelGenre->getName($item->Genre_id)->Genre;
-        $this->view->detail($logged, $item, $genre);
+        $this->view->detail($item, $genre);
     }
 
 
@@ -88,10 +84,9 @@ class BooksController{
 
         } else {
 
-            $logged = $this->authHelper->isLogged();
             $genres = $this->modelGenre->getNameAndId();
             $fields = $this->model->getItem($id);
-            $this->view->editDitail($logged, $genres, $fields, $id);
+            $this->view->editDitail($genres, $fields, $id);
         
         }
     }

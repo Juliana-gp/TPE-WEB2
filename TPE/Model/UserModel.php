@@ -18,9 +18,26 @@ class UserModel{
         if (!empty($_POST['usuario']) && !empty($_POST['password']) ){
             $usuario = $_POST['usuario'];
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-
-            $query = $this->db->prepare('INSERT INTO users (user, password) VALUES (?,?)');
-            $query->execute([$usuario, $password]);
+            $query = $this->db->prepare('INSERT INTO users (user, password, role) VALUES (?,?,?)');
+            $query->execute([$usuario, $password, "user"]);
         }
     }
+
+    function updateUserRole($id, $role){
+            $sentence = $this->db->prepare('UPDATE users SET role = $role WHERE id_user = ?');
+            $sentence->execute(array($id));
+    }
+
+    function getUsers(){
+        $sentence = $this->db->prepare("SELECT id_user, user, role FROM users ORDER BY user ASC");
+        $sentence->execute();
+        $users = $sentence->fetchAll(PDO::FETCH_OBJ);
+        return $users; 
+    }
+
+    function deleteUser($id){
+        $sentence = $this->db->prepare("DELETE FROM users WHERE id_user=?");
+        $sentence->execute(array($id));
+    }
+
 }

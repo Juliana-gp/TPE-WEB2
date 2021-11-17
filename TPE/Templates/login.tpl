@@ -1,5 +1,5 @@
 
-{include file='header.tpl' logged={false} }
+{include file='header.tpl'}
 
 
     <div>

@@ -10,26 +10,22 @@ class GenresView{
         $this->smarty = new Smarty();   
     }
 
-    function adm($logged, $genres){
-        $this->smarty->assign('logged', $logged);
+    function adm($genres){
         $this->smarty->assign('genres', $genres);
         $this->smarty->display('templates/tables/genresAdm.tpl');
     }
 
-    function detail($logged, $id){
-        $this->smarty->assign('logged', $logged);
+    function detail($id){
         $this->smarty->assign('genre', $id);
         $this->smarty->display('templates/details/genre.tpl');
     }
 
-    function editDitail($logged, $fields){
-        $this->smarty->assign('logged', $logged);
+    function editDitail($fields){
         $this->smarty->assign('fields', $fields);
         $this->smarty->display('templates/details/genreEdit.tpl');
     }
 
-    function main($logged, $genres){   
-        $this->smarty->assign('logged', $logged);    
+    function main($genres){   
         $this->smarty->assign('genres', $genres);
         $this->smarty->display('templates/tables/genresMain.tpl');
     }

@@ -18,6 +18,7 @@
             <nav>
                 <li class="btn"><a href="genero/home">Home</a></li>
                 <li class="btn"><a href="libro/">Gestor</a></li>
+                <li class="btn"><a href="usuario/gestor">Gestor usuarios</a></li>
                 <li class="btn"><a href="usuario/logout">Logout</a></li>
             </nav>
         {else}

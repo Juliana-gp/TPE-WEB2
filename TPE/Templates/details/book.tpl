@@ -1,4 +1,4 @@
-{include file='templates/header.tpl' logged={$logged}}
+{include file='templates/header.tpl'}
 
 <div class="center-content">
 
@@ -23,7 +23,7 @@
 
 
 
-            {if $logged}
+            {if isset($smarty.session.USERNAME)}
                 <div class="df">
                     <a href="libro/editar/{$book->Book_id}"><img class="icon" src="images/icons/edit.png" alt="Editar"></a>
                     <a href="libro/eliminar/{$book->Book_id}"><img class="icon" src="images/icons/trash.png" alt="Eliminar"></a>

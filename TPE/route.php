@@ -88,6 +88,12 @@
                 case 'crear':
                     $userController->add();
                     break;
+                case 'gestor':
+                    $userController->showUsers();
+                    break;
+                case 'eliminar':
+                    $userController->delete($params[2]);
+                    break;
                 default: 
                     $userController->login();
                     break;

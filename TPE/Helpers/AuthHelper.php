@@ -17,8 +17,8 @@ class AuthHelper{
         
     }
 
-    
-    function isLogged(){   //checkLoggedInBoolean
+    /*
+    function isLogged(){
        
         if (isset($_SESSION['USERNAME'])){
             return true;
@@ -26,11 +26,18 @@ class AuthHelper{
         else {
             return false;
         }
+    }*/
+
+    function checkAdmin(){
+        if ( (isset($_SESSION['USERNAME']) && ($_SESSION['ROLE'] == "admin")) )
+            return true;
+        else
+            header("Location: ".BASE_URL."usuario");
+            die();
     }
 
-
     function logout(){
-        
+
         session_destroy();
         header("Location: ".BASE_URL."genero/home");
 

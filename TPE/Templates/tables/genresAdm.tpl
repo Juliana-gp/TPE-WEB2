@@ -1,4 +1,4 @@
-{include file='templates/header.tpl' logged={$logged}}
+{include file='templates/header.tpl'}
 
 <section>
     <h1>Gestor de géneros<a href="libro/" class="grey"> / Libros </a></h1>

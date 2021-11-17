@@ -20,6 +20,7 @@ class UserController{
         if(isset($_POST['usuario'], $_POST['password'])) {
             $this->model->addUser();
             $_SESSION['USERNAME'] = $_POST['usuario'];
+            $_SESSION['ROLE'] = "user";
             $this->view->showHome();
         } else {
             $this->view->showNewUser();
@@ -40,6 +41,7 @@ class UserController{
             session_start();
             if ($user && password_verify($password, $user->password)){
                 $_SESSION['USERNAME'] = $nameUser;
+                $_SESSION['ROLE'] = $user->role;
                 $this->view->showHome();
             }
             else{
@@ -49,5 +51,22 @@ class UserController{
         else{
             $this->view->showLoginForm();
         }
+    }
+
+
+    function showUsers(){
+        $users = $this->model->getUsers();
+        $this->view->showFormUsers($users);
+    }
+
+    //Falta ontrolar que no se borre a si mismo
+    function delete($userId){
+        //$this->authHelper->checkLoggedIn();
+        if ($this->authHelper->checkAdmin()){
+            $this->model->deleteUser($userId);
+            $this->showUsers();            
+        }
+        else 
+            header("Location: ".BASE_URL."usuario");
     }
 }

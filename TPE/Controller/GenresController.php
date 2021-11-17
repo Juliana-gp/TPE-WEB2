@@ -37,21 +37,18 @@ class GenresController{
         $this->authHelper->checkLoggedIn();
 
         $genres = $this->model->getAll();
-        $logged = true;
-        $this->view->adm($logged, $genres);
+        $this->view->adm($genres);
 
     }
 
     function showHome(){
-        $logged = $this->authHelper->isLogged();
         $genres = $this->model->getAll();
-        $this->view->main($logged, $genres);
+        $this->view->main($genres);
     }
     
     function showItem($id){
-        $logged = $this->authHelper->isLogged();
         $item = $this->model->getItem($id);
-        $this->view->detail($logged, $item);
+        $this->view->detail($item);
     }
 
 
@@ -63,10 +60,8 @@ class GenresController{
             $this->showItem($id);
 
         } else {
-
-            $logged = true;
             $fields = $this->model->getItem($id);
-            $this->view->editDitail($logged, $fields);
+            $this->view->editDitail($fields);
         
         }         
     }

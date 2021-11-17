@@ -1,4 +1,4 @@
-{include file='templates/header.tpl' logged={$logged}}
+{include file='templates/header.tpl'}
 
 <section>
     <h1 class="title">Libros del Género {$genre->Genre}</h1>
