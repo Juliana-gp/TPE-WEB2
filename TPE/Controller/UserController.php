@@ -53,7 +53,6 @@ class UserController{
         }
     }
 
-
     function showUsers(){
         $users = $this->model->getUsers();
         $this->view->showFormUsers($users);
@@ -61,12 +60,25 @@ class UserController{
 
     //Falta ontrolar que no se borre a si mismo
     function delete($userId){
-        //$this->authHelper->checkLoggedIn();
         if ($this->authHelper->checkAdmin()){
             $this->model->deleteUser($userId);
             $this->showUsers();            
         }
         else 
             header("Location: ".BASE_URL."usuario");
+    }
+
+
+
+    function update($userId){
+        if ($this->authHelper->checkAdmin()){
+            if ($_POST['rol']){
+                $this->model->updateUserRole(($_POST['rol']), $userId);
+                $this->showUsers();
+            }
+        }
+        else 
+            header("Location: ".BASE_URL."usuario");
+
     }
 }

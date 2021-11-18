@@ -94,6 +94,9 @@
                 case 'eliminar':
                     $userController->delete($params[2]);
                     break;
+                case 'editar':
+                    $userController->update($params[2]);
+                    break;                    
                 default: 
                     $userController->login();
                     break;
