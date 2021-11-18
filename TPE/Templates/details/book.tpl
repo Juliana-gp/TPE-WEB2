@@ -22,8 +22,7 @@
             <p>{$book->Synopsis}</p>
 
 
-
-            {if isset($smarty.session.USERNAME)}
+            {if isset($smarty.session.USERNAME) && ($smarty.session.ROLE) == "admin"}
                 <div class="df">
                     <a href="libro/editar/{$book->Book_id}"><img class="icon" src="images/icons/edit.png" alt="Editar"></a>
                     <a href="libro/eliminar/{$book->Book_id}"><img class="icon" src="images/icons/trash.png" alt="Eliminar"></a>
@@ -38,4 +37,8 @@
     </div>
 </div>
 
+<div class="center-content">
+<h1 class="title">Comentarios</h1>
+
+</div>
 {include file='templates/footer.tpl'}

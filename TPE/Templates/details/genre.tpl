@@ -15,7 +15,7 @@
             <h3>Descripción:</h3>
             <p>{$genre->Description}</p>
 
-            {if ((isset($smarty.session.USERNAME)) && ($smarty.session.ROLE) == "Admin" )}
+            {if ((isset($smarty.session.USERNAME)) && ($smarty.session.ROLE) == "admin" )}
                 <div class="df">
                     <a href="genero/editar/{$genre->Genre_id}"><img class="icon" src="images/icons/edit.png"
                             alt="Editar"></a>

@@ -14,7 +14,7 @@
     <header>
         <a href="genero/home"><img src="images/logo.png" alt="Logo biblioteca" id="logo"></a>   
     
-        {if isset($smarty.session.USERNAME)}
+        {if isset($smarty.session.USERNAME) && ($smarty.session.ROLE) == "admin"}
             <nav>
                 <li class="btn"><a href="genero/home">Home</a></li>
                 <li class="btn"><a href="libro/">Gestor</a></li>

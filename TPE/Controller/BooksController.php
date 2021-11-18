@@ -77,7 +77,6 @@ class BooksController{
                 $this->model->update($id, $_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis'], $_FILES['cover']);}
            else
                 $this->model->update($id, $_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis']);
-
             $this->showItem($id);
         } else {
             $genres = $this->modelGenre->getNameAndId();

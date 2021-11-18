@@ -24,8 +24,6 @@ class BooksModel{
 
     private function uploadImage($image){
         $target = "images/covers/" . uniqid().".jpg";
-        //move_uploaded_file($_FILES['cover']['tmp_name'], 'images/covers/'.$name );
-        //var_dump($image);
         move_uploaded_file($image['tmp_name'], $target);
         return $target;
     }
