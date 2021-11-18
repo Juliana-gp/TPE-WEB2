@@ -13,11 +13,21 @@ class BooksModel{
         $sentence->execute(array($id));
     }
 
-    function insert($title, $author, $ISBN, $genre, $cover, $synopsis){
-        $sentence = $this->db->prepare("INSERT INTO `books`(`Title`, `Author`, `ISBN`, 
-                                        `Genre_id`, `Cover`, `Synopsis` ) 
-                                        VALUES (?, ?, ?, ?, ?, ?)");
-        $sentence->execute(array($title, $author, $ISBN, $genre, $cover, $synopsis));
+    function insert($title, $author, $ISBN, $genre,  $synopsis, $cover = null){
+        if ($cover != null)
+            $path = $this->uploadImage($cover);
+        else $path = null;
+
+        $sentence = $this->db->prepare("INSERT INTO books(Title, Author, ISBN,Genre_id, Cover, Synopsis)VALUES (?, ?, ?, ?, ?, ?)");
+        $sentence->execute(array($title, $author, $ISBN, $genre, $path, $synopsis));
+    }
+
+    private function uploadImage($image){
+        $target = "images/covers/" . uniqid().".jpg";
+        //move_uploaded_file($_FILES['cover']['tmp_name'], 'images/covers/'.$name );
+        //var_dump($image);
+        move_uploaded_file($image['tmp_name'], $target);
+        return $target;
     }
 
     function getAll(){
@@ -44,9 +54,13 @@ class BooksModel{
     }
 
     function update($id, $title, $author, $ISBN, $genre, $synopsis, $cover = "") {
-        $query = "UPDATE `books` SET `Title`='$title',`Author`='$author',`ISBN`='$ISBN', `Genre_id`='$genre', `Synopsis`='$synopsis' ";
-        $query .= $cover != "" ? ",`Cover`='$cover' " : "";  
-        $query .= "WHERE `books`.`Book_id`=?";
+        if ($cover)
+            $path = $this->uploadImage($cover);
+        else $path = "";
+
+        $query = "UPDATE books SET Title='$title',Author='$author',ISBN='$ISBN', Genre_id='$genre', Synopsis='$synopsis' ";
+        $query .= $path != "" ? ",Cover='$path' " : "";  
+        $query .= "WHERE books.Book_id=?";
         $sentence = $this->db->prepare($query);
         $sentence->execute(array($id));
     }

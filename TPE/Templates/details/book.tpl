@@ -7,7 +7,7 @@
     <div class="df">
         <div class="col-30">
             <div class="cover">
-                <img src="images/covers/{$book->Cover}" alt="Tapa de {$book->Title}">
+                <img src="{$book->Cover}" alt="Tapa de {$book->Title}">
             </div>
         </div>
 

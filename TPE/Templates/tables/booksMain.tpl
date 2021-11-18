@@ -7,7 +7,7 @@
     <div class="col-30">
         <article>
             <div class="cover">
-                <img src="images/covers/{$book->Cover}" alt="Portada del libro {$book->Title}">
+                <img src="{$book->Cover}" alt="Portada del libro {$book->Title}">
             </div>
             <div>
                 <h4>{$book->Title}</h4>

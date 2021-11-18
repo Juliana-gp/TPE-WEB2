@@ -26,13 +26,14 @@ class BooksController{
 
     function add() {
         $this->authHelper->checkLoggedIn(); 
-
-        $name = $_FILES['cover']['name'];
-        move_uploaded_file($_FILES['cover']['tmp_name'], 'images/covers/'.$name );
-        $this->model->insert($_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $name, $_POST['synopsis']);
+        if($_FILES['cover']['type'] == "image/jpg" || $_FILES['cover']['type'] == "image/jpeg"  || $_FILES['cover']['type'] == "image/png" ){
+            $this->model->insert($_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis'], $_FILES['cover']);
+        }
+        else
+           // $this->model->insert($_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis']);
         $this->showHomeLocation();
-
     }
+
 
     function delete($bookId) {
         $this->authHelper->checkLoggedIn();
@@ -71,19 +72,14 @@ class BooksController{
     function update($id) {
         $this->authHelper->checkLoggedIn(); 
 
-        if (isset($_POST['title'], $_POST['author'], $_POST['ISBN'],   
-                $_POST['genre'], $_POST['synopsis'])) {  
-            
-            $name = $_FILES['cover']['name'];
-            if ($name && $name != "") {
-                move_uploaded_file($_FILES['cover']['tmp_name'], 'images/covers/'.$name );
-            }
-                
-            $this->model->update($id, $_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis'], $name);
+        if (isset($_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis'])) {  
+            if($_FILES['cover']['type'] == "image/jpg" || $_FILES['cover']['type'] == "image/jpeg"  || $_FILES['cover']['type'] == "image/png"){
+                $this->model->update($id, $_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis'], $_FILES['cover']);}
+           else
+                $this->model->update($id, $_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis']);
+
             $this->showItem($id);
-
         } else {
-
             $genres = $this->modelGenre->getNameAndId();
             $fields = $this->model->getItem($id);
             $this->view->editDitail($genres, $fields, $id);

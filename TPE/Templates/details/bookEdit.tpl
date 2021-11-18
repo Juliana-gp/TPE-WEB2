@@ -2,7 +2,7 @@
 
 <div class="col-30">
     <div class="cover">
-        <img src="images/covers/{$fields->Cover}" alt="Tapa del libro {$fields->Title}">
+        <img src="{$fields->Cover}" alt="Tapa del libro {$fields->Title}">
     </div>
 </div>
 
@@ -31,7 +31,7 @@
         <h3>Sinopsis: </h3>
         <textarea type="textarea" name="synopsis" id="synopsis" placeholder="Sinopsis..." rows="10" cols="50" class="input-format" required>{$fields->Synopsis}</textarea>
 
-        <input type="file" name="cover" id="cover" value="images/covers/{$fields->Cover}" selected="images/covers/{$fields->Cover}" class="btn">
+        <input type="file" name="cover" id="cover" value="{$fields->Cover}" selected="{$fields->Cover}" class="btn">
         <div>
         <input type="submit" value="Guardar cambios" id="guardar">
         <h5><a href="libro/ver/{$fields->Book_id}" class="link"> Volver al libro </a></h5>
