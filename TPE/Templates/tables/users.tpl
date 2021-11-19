@@ -15,11 +15,11 @@
                     <form action="usuario/editar/{$user->id_user}" method="post">
                         <td>{$user->user}</td>
                         <td>
-                            <input type="radio" name="rol" value="admin" {if $user->rol == "admin"}checked{/if} />
+                            <input type="radio" name="rol" value="admin" {if $user->role == "admin"}checked{/if} />
                             <label for="admin">Admin</label>
                         </td>
                         <td>
-                            <input type="radio" name="rol" value="normal" {if $user->rol == "normal"}checked{/if} />
+                            <input type="radio" name="rol" value="normal" {if $user->role == "normal"}checked{/if} />
                             <label for="normal">User</label>
                         </td>
                         <td><input type="submit" value="Actualizar"></td>

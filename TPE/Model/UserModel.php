@@ -8,10 +8,21 @@ class UserModel{
         $this -> db = new PDO ('mysql:host=localhost;'.'dbname=db_books;charset=utf8', 'root', '');
     }
 
-    function getUser($user){
-        $query = $this->db->prepare('SELECT * FROM users WHERE user = ?');
-        $query->execute([$user]);
+    function getUser($userName){
+        $query = $this->db->prepare('SELECT * FROM users WHERE user=?');
+        $query->execute([$userName]);
         return $query->fetch(PDO::FETCH_OBJ);
+    }
+
+    function getUserById($id){
+        $query = $this->db->prepare('SELECT * FROM users WHERE id_user=?');
+        $query->execute([$id]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
+    function deleteUser($id){
+        $sentence = $this->db->prepare("DELETE FROM users WHERE id_user=?");
+        $sentence->execute(array($id));
     }
 
     function addUser(){
@@ -35,9 +46,6 @@ class UserModel{
         return $users; 
     }
 
-    function deleteUser($id){
-        $sentence = $this->db->prepare("DELETE FROM users WHERE id_user=?");
-        $sentence->execute(array($id));
-    }
+  
 
 }

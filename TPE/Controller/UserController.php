@@ -58,11 +58,11 @@ class UserController{
         $this->view->showFormUsers($users);
     }
 
-    //Falta ontrolar que no se borre a si mismo
+    //Falta controlar que no se borre a si mismo
     function delete($userId){
         if ($this->authHelper->checkAdmin()){
             $this->model->deleteUser($userId);
-            $this->showUsers();            
+            $this->showUsers();
         }
         else 
             header("Location: ".BASE_URL."usuario");
@@ -72,6 +72,7 @@ class UserController{
 
     function update($userId){
         if ($this->authHelper->checkAdmin()){
+
             if ($_POST['rol']){
                 $this->model->updateUserRole(($_POST['rol']), $userId);
                 $this->showUsers();

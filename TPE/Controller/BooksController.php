@@ -30,9 +30,10 @@ class BooksController{
             $this->model->insert($_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis'], $_FILES['cover']);
         }
         else
-           // $this->model->insert($_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis']);
+            $this->model->insert($_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis']);
         $this->showHomeLocation();
     }
+    
 
 
     function delete($bookId) {

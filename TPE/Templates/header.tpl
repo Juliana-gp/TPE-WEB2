@@ -14,23 +14,20 @@
     <header>
         <a href="genero/home"><img src="images/logo.png" alt="Logo biblioteca" id="logo"></a>   
     
-        {if isset($smarty.session.USERNAME) && ($smarty.session.ROLE) == "admin"}
-            <nav>
-                <li class="btn"><a href="genero/home">Home</a></li>
+        <nav>
+            <li class="btn"><a href="genero/home">Home</a></li>
+            {if isset($smarty.session.USERNAME)}
+                {if ($smarty.session.ROLE) == "admin"}
                 <li class="btn"><a href="libro/">Gestor</a></li>
                 <li class="btn"><a href="usuario/gestor">Gestor usuarios</a></li>
+                {/if}
                 <li class="btn"><a href="usuario/logout">Logout</a></li>
-            </nav>
-        {else}
-            <nav>
-                <li class="btn"><a href="genero/home">Home</a></li>
+            {else}
                 <li class="btn"><a href="usuario/">Login</a></li>
                 <li class="btn"><a href="usuario/crear">Crear Usuario</a></li>
-            </nav>
-        {/if}
-        
-        
-
+            {/if}
+                
+        </nav>
     </header>
    
     <main>
