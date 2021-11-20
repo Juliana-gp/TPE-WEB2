@@ -42,4 +42,12 @@ class ComsModel{
         $comentarios = $sentence->fetchAll(PDO::FETCH_OBJ);
         return $comentarios;
     }
+
+    //---------------------------------------
+    function getCommentByBook($bookId){
+        $sentence = $this->db->prepare("SELECT * FROM comments WHERE id_comment=?");
+        $sentence->execute(array($id));
+        $comment = $sentence->fetch(PDO::FETCH_OBJ);
+        return $comment;
+    }
 }
