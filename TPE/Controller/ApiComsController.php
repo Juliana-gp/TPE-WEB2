@@ -25,8 +25,15 @@ class ApiComsController{
         return json_decode($bodyString);
     }
 
-    function getComments(){
-        $comentarios = $this->model->getComments();
+    function getComments() {
+        $filters = array();    
+        if (isset($_GET['book']) && $_GET['book']) {
+            $filters['book'] = $_GET['book'];
+        }
+        if (isset($_GET['user']) && $_GET['user']) {
+            $filters['user'] = $_GET['user'];
+        }
+        $comentarios = $this->model->getComments($filters);
         if ($comentarios)
             return $this->view->response($comentarios, 200);
         else 
@@ -78,7 +85,7 @@ class ApiComsController{
             return $this->view->response("XXXXX id=$idComment no existe", 404);     // no se pudo borrar
         }
     }
-
+ 
     function getCommentsOrd($params = null){
         $body = $this->getBody();
         if (isset($body->orderBy)){ //SE PUEDE CONTROLAR QUE ESE ORDERBY SEA UN NOMBRE DE UNA COLUMNA ???
@@ -92,6 +99,23 @@ class ApiComsController{
             return $this->view->response($comentarios, 200);        //VER RESPUESTA
         else 
             return $this->view->response("XXXXX", 000);             //VER RESPUESTA
+    }
+
+    //---------------------------------------
+    function editComment($params = []){
+        $idComment = $params[":ID"];
+        $comment = $this->model->getComment($idComment);
+        if ($comment) {
+            $body = $this->getBody();
+            $comment = $body->comment;
+            $score = $body->score;
+            $id_user = $body->id_user;
+            $id_book = $body->id_book;
+            $comment = $this->model->updateComment($idComment, $comment, $score, $id_user, $id_book);
+            $this->view->response("El comentario id=$idComment se ha actualizado con éxito", 200);
+        } else{ 
+            $this->view->response("El comentario id=$idComment no se ha encontrado", 404);
+        }
     }
 
 }
