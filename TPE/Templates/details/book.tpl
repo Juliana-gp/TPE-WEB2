@@ -39,35 +39,15 @@
     </div>
 
     <div class="center-content">
-        <h1 class="title" data="{$book->Book_id}">Comentarios</h1>
+        <h1 class="title">Comentarios</h1>
 
-        {include file='templates/vue/comments.tpl'}
-  
-
-
-        <!--{include file='templates/vue/commentForm.tpl'}-->
-        <div id="commentForm">
-            <h1 class="title">Comentar</h1>
-            <form method="post" dataUser={$smarty.session.USERID} dataBook={$book->Book_id} id="nuevoComentario">
-                <div class="cover">
-                    <select name="score">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5" selected>5</option>
-                    </select>
-                </div>
-                <div class="cover">
-                    <textarea placeholder="Comentario..." type="textarea" rows="7" cols="40" maxlength="140" name="comment" id="comment" required></textarea>
-                </div>
-                <div class="cover">
-                    <button id="btnComentar">Comentar</button>
-                </div>
-            </form>
-        </div>
- 
-
+        {include file='templates/vue/commentsList.tpl'}
+        {if isset($smarty.session.USERNAME)}
+            <div dataUser={$smarty.session.USERID} dataBook="{$book->Book_id}" id="book"></div>
+        {include file='templates/vue/commentForm.tpl'}
+        {else}
+            <div dataBook="{$book->Book_id}" id="book"></div>
+        {/if}
 
     </div>
 </main>

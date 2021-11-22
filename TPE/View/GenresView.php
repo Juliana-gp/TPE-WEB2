@@ -25,8 +25,9 @@ class GenresView{
         $this->smarty->display('templates/details/genreEdit.tpl');
     }
 
-    function main($genres){   
+    function main($genres, $access = null){
         $this->smarty->assign('genres', $genres);
+        $this->smarty->assign('access', $access);
         $this->smarty->display('templates/tables/genresMain.tpl');
     }
 

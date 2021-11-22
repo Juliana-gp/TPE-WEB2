@@ -31,6 +31,7 @@ class UserModel{
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
             $query = $this->db->prepare('INSERT INTO users (user, password, role) VALUES (?,?,?)');
             $query->execute([$usuario, $password, "user"]);
+            return $this->db->lastInsertId();
         }
     }
 

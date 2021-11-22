@@ -1,5 +1,5 @@
 {literal}
-    <div id="comments">
+    <div id="commentsList">
         <div class="comment" v-for="comment in comments">
             <div id="cover">
                 <h4>Puntuación: {{comment.score}}</h4>
@@ -7,7 +7,7 @@
             <div>
             <p>{{comment.comment}}</p>
             </div>
-            <p>Eliminar</p>
+            <p @click="eliminarComentario(comment.id_comment)">Eliminar</p>
         </div>
     </div>
 {/literal}

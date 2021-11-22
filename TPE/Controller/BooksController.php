@@ -25,7 +25,7 @@ class BooksController{
     }
 
     function add() {
-        $this->authHelper->checkLoggedIn(); 
+        $this->authHelper->checkAdmin(); 
         if($_FILES['cover']['type'] == "image/jpg" || $_FILES['cover']['type'] == "image/jpeg"  || $_FILES['cover']['type'] == "image/png" ){
             $this->model->insert($_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis'], $_FILES['cover']);
         }
@@ -37,7 +37,7 @@ class BooksController{
 
 
     function delete($bookId) {
-        $this->authHelper->checkLoggedIn();
+        $this->authHelper->checkAdmin();
 
         $this->model->delete($bookId);
         $this->showHomeLocation();
@@ -50,7 +50,7 @@ class BooksController{
     }
 
     function showAdm(){
-        $this->authHelper->checkLoggedIn(); 
+        $this->authHelper->checkAdmin();
 
         $genres = $this->modelGenre->getNameAndId();
         $books = $this->model->getAll();
@@ -71,7 +71,7 @@ class BooksController{
 
 
     function update($id) {
-        $this->authHelper->checkLoggedIn(); 
+        $this->authHelper->checkAdmin();
 
         if (isset($_POST['title'], $_POST['author'], $_POST['ISBN'], $_POST['genre'], $_POST['synopsis'])) {  
             if($_FILES['cover']['type'] == "image/jpg" || $_FILES['cover']['type'] == "image/jpeg"  || $_FILES['cover']['type'] == "image/png"){

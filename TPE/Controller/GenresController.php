@@ -20,30 +20,28 @@ class GenresController{
     }
 
     function add() {
-        $this->authHelper->checkLoggedIn(); 
-
+        $this->authHelper->checkAdmin();
         $this->model->insert($_POST['genre'], $_POST['description']);
         $this->showHomeLocation();
+       
     }
 
     function delete($id){
-        $this->authHelper->checkLoggedIn();
+        $this->authHelper->checkAdmin();
 
         $this->model->delete($id);
         $this->showHomeLocation();
     }
 
     function showAdm(){
-        $this->authHelper->checkLoggedIn();
-
+        $this->authHelper->checkAdmin();
         $genres = $this->model->getAll();
         $this->view->adm($genres);
-
     }
 
-    function showHome(){
+    function showHome($respuesta = null){
         $genres = $this->model->getAll();
-        $this->view->main($genres);
+        $this->view->main($genres, $respuesta);
     }
     
     function showItem($id){

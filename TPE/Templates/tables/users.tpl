@@ -20,8 +20,8 @@
                                 <label for="admin">Admin</label>
                             </td>
                             <td>
-                                <input type="radio" name="rol" value="normal" {if $user->role == "normal"}checked{/if} />
-                                <label for="normal">User</label>
+                                <input type="radio" name="rol" value="user" {if $user->role == "user"}checked{/if} />
+                                <label for="user">User</label>
                             </td>
                             <td><input type="submit" value="Actualizar"></td>
                         </form>

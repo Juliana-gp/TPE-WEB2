@@ -26,18 +26,29 @@ class ApiComsController{
     }
 
     function getComments() {
-        $filters = array();    
-        if (isset($_GET['book']) && $_GET['book']) {
-            $filters['book'] = $_GET['book'];
+        $filters = array();
+        if (isset($_GET['book'])){
+            $book = $this->booksModel->getItem($_GET['book']);
+            if ($book)
+                $filters['book'] = $_GET['book'];
+            else
+                return $this->view->response("El libro por el que quiere filtrar no existe", 400);
         }
-        if (isset($_GET['user']) && $_GET['user']) {
-            $filters['user'] = $_GET['user'];
+        if (isset($_GET['user'])) {
+            $user = $this->userModel->getUserById($_GET['user']);
+            if ($user)
+                $filters['user'] = $_GET['user']; 
+            else
+                return $this->view->response("El usuario por el que quiere filtrar no existe", 400);
+        }
+        if (isset($_GET['puntaje']) && ($_GET['puntaje'])>=1 && ($_GET['puntaje'])<=5 ) {
+            $filters['puntaje'] = $_GET['puntaje']; 
         }
         $comentarios = $this->model->getComments($filters);
         if ($comentarios)
             return $this->view->response($comentarios, 200);
         else 
-            return $this->view->response("XXXXX", 000);                                 //VER RESPUESTA
+            return $this->view->response("No hay comentarios", 204);                                 //VER RESPUESTA
     }
 
     //Falta definir control usuario
@@ -72,20 +83,9 @@ class ApiComsController{
         } else {
             return $this->view->response("XXXXX id=$idComment no existe", 404);     // no se pudo borrar
         }
-
     }
 
-    //Estaria ok pero no lo necesitamos
-    function getComment($params = null){
-        $idComment = $params[":ID"];
-        $comment = $this->model->getComment($idComment);
-        if ($comment) {
-            return $this->view->response($comment, 200);   // ok
-        } else {
-            return $this->view->response("XXXXX id=$idComment no existe", 404);     // no se pudo borrar
-        }
-    }
- 
+     //-------------------------------------------- // -------------------------------------------- // 
     function getCommentsOrd($params = null){
         $body = $this->getBody();
         if (isset($body->orderBy)){ //SE PUEDE CONTROLAR QUE ESE ORDERBY SEA UN NOMBRE DE UNA COLUMNA ???
@@ -101,7 +101,7 @@ class ApiComsController{
             return $this->view->response("XXXXX", 000);             //VER RESPUESTA
     }
 
-    //---------------------------------------
+    //-------------------------------------------- // -------------------------------------------- // 
     function editComment($params = []){
         $idComment = $params[":ID"];
         $comment = $this->model->getComment($idComment);
@@ -118,4 +118,14 @@ class ApiComsController{
         }
     }
 
+    //Estaria ok pero no lo necesitamos
+    function getComment($params = null){
+        $idComment = $params[":ID"];
+        $comment = $this->model->getComment($idComment);
+        if ($comment) {
+            return $this->view->response($comment, 200);   // ok
+        } else {
+            return $this->view->response("XXXXX id=$idComment no existe", 404);     // no se pudo borrar
+        }
+    }
 }

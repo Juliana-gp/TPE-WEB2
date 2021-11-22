@@ -11,11 +11,13 @@ class ApiView{
     private function _requestStatus($code){
         $status = array(
             200 => "OK",
+            204 => "No Content",
+            400 => "Bad request",
             401 => "Unautorized",
             403 => "Forbidden",
             404 => "Not found",
             500 => "Internal Server Error",
-            501 => "Internal Error in Tasks web"
+            501 => "Internal Error"
           );
           return (isset($status[$code]))? $status[$code] : $status[500];
     }

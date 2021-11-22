@@ -18,4 +18,7 @@
     {/foreach}
 </main>
 
+<div id="msg">
+    <p>{$access}</p>
+</div>
 {include file='templates/footer.tpl'}

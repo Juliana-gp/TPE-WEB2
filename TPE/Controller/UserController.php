@@ -21,9 +21,11 @@ class UserController{
 
     function add(){
         if(isset($_POST['usuario'], $_POST['password'])) {
-            $this->model->addUser();
+            $user = $this->model->addUser();
             $_SESSION['USERNAME'] = $_POST['usuario'];
+            $_SESSION['USERID'] = $user;
             $_SESSION['ROLE'] = "user";
+            //echo($user);
             $this->view->showHome();
         } else {
             $this->view->showNewUser();
@@ -58,41 +60,38 @@ class UserController{
     }
 
     function showUsers($respuesta = null){
+        $this->authHelper->checkAdmin();
         $users = $this->model->getUsers();
         $this->view->showFormUsers($users, $respuesta);
     }
 
     //Falta controlar que no se borre a si mismo
     function delete($userId){
-        if ($this->authHelper->checkAdmin()){
-            if ($userId != $_SESSION['USERID']){
-                $comsUser = $this -> modelComments -> getCommentUser($userId);
-                if (!$comsUser){
-                    $this->model->deleteUser($userId);
-                    $this->showUsers("Usuario eliminado");
-                }
-                else
-                    $this->showUsers("No se puede borrar, el usuario tiene comentarios"); 
+        $this->authHelper->checkAdmin();
+        if ($userId != $_SESSION['USERID']){
+            $comsUser = $this -> modelComments -> getCommentUser($userId);
+            if (!$comsUser){
+                $this->model->deleteUser($userId);
+                $this->showUsers("Usuario eliminado");
             }
             else
-                $this->showUsers("No se puede borrar su mismo usuario"); 
+                $this->showUsers("No se puede borrar, el usuario tiene comentarios"); 
         }
-        else 
-            header("Location: ".BASE_URL."usuario");
+        else
+            $this->showUsers("No se puede borrar su mismo usuario"); 
+ 
     }
 
 
 
     function update($userId){
-        if ($this->authHelper->checkAdmin()){
-            if ($userId == $_SESSION['USERID'])
-                $this->showUsers("No se puede cambiar su propio rol"); 
-            else if ($_POST['rol']){
-                $this->model->updateUserRole(($_POST['rol']), $userId);
-                $this->showUsers("El rol se cambio correctamente");
-            }
+       $this->authHelper->checkAdmin();
+        if ($userId == $_SESSION['USERID'])
+            $this->showUsers("No se puede cambiar su propio rol"); 
+        else if ($_POST['rol']){
+            $this->model->updateUserRole(($_POST['rol']), $userId);
+            $this->showUsers("El rol se cambio correctamente");
         }
-        else 
-            header("Location: ".BASE_URL."usuario");
+      
     }
 }

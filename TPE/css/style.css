@@ -180,3 +180,13 @@ header {
     color: slategrey;
     font-weight: bolder;
 }
+
+#msg {
+    background-color: rgba(70, 52, 52, 0.6);
+    position: fixed;
+    z-index: 5000;
+    right: 0;
+    bottom: 0;
+    color: white;
+    padding: 0% 4%;
+}
