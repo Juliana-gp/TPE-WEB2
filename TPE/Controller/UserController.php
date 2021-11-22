@@ -2,6 +2,7 @@
 require_once "./Model/UserModel.php";
 require_once "./View/UserView.php";
 require_once "./Helpers/AuthHelper.php";
+require_once "./Model/ComsModel.php";
 
 
 class UserController{
@@ -9,11 +10,13 @@ class UserController{
     private $model;
     private $view;
     private $authHelper;
+    private $modelComments;
 
     function __construct(){
         $this -> model = new UserModel();
         $this -> view = new UserView();
         $this ->  authHelper = new AuthHelper();
+        $this -> modelComments = new ComsModel();
     }
 
     function add(){
@@ -41,6 +44,7 @@ class UserController{
             session_start();
             if ($user && password_verify($password, $user->password)){
                 $_SESSION['USERNAME'] = $nameUser;
+                $_SESSION['USERID'] = $user->id_user;
                 $_SESSION['ROLE'] = $user->role;
                 $this->view->showHome();
             }
@@ -53,16 +57,25 @@ class UserController{
         }
     }
 
-    function showUsers(){
+    function showUsers($respuesta = null){
         $users = $this->model->getUsers();
-        $this->view->showFormUsers($users);
+        $this->view->showFormUsers($users, $respuesta);
     }
 
     //Falta controlar que no se borre a si mismo
     function delete($userId){
         if ($this->authHelper->checkAdmin()){
-            $this->model->deleteUser($userId);
-            $this->showUsers();
+            if ($userId != $_SESSION['USERID']){
+                $comsUser = $this -> modelComments -> getCommentUser($userId);
+                if (!$comsUser){
+                    $this->model->deleteUser($userId);
+                    $this->showUsers("Usuario eliminado");
+                }
+                else
+                    $this->showUsers("No se puede borrar, el usuario tiene comentarios"); 
+            }
+            else
+                $this->showUsers("No se puede borrar su mismo usuario"); 
         }
         else 
             header("Location: ".BASE_URL."usuario");
@@ -72,14 +85,14 @@ class UserController{
 
     function update($userId){
         if ($this->authHelper->checkAdmin()){
-
-            if ($_POST['rol']){
+            if ($userId == $_SESSION['USERID'])
+                $this->showUsers("No se puede cambiar su propio rol"); 
+            else if ($_POST['rol']){
                 $this->model->updateUserRole(($_POST['rol']), $userId);
-                $this->showUsers();
+                $this->showUsers("El rol se cambio correctamente");
             }
         }
         else 
             header("Location: ".BASE_URL."usuario");
-
     }
 }

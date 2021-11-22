@@ -1,7 +1,6 @@
-
 {include file='header.tpl'}
 
-
+<main>
     <div>
         <h2>{$title}</h2>
         <form action="usuario/{$action}" method="post">
@@ -12,6 +11,6 @@
         <p><a href="usuario/{$action2}" class="link">{$text}</a></p>
         <p>{$error}</p>
     </div>
-
+</main>
 
 {include file='footer.tpl'}

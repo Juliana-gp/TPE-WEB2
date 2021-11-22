@@ -75,7 +75,7 @@ class ApiComsController{
 
     }
 
-    //Estaria ok
+    //Estaria ok pero no lo necesitamos
     function getComment($params = null){
         $idComment = $params[":ID"];
         $comment = $this->model->getComment($idComment);

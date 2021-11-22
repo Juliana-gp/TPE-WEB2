@@ -34,8 +34,9 @@ class UserView{
         $this ->smarty->display('templates/login.tpl');
     }
 
-    function showFormUsers($users){
+    function showFormUsers($users, $respuesta = null){
         $this ->smarty->assign('users', $users);
+        $this ->smarty->assign('respuesta', $respuesta);
         $this ->smarty->display('templates/tables/users.tpl');
     }
 }
