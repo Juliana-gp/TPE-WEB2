@@ -7,7 +7,7 @@
             <div>
             <p>{{comment.comment}}</p>
             </div>
-            <p @click="eliminarComentario(comment.id_comment)">Eliminar</p>
+            <p @click="eliminarComentario(comment.id_comment)" v-if="role ==='admin'">Eliminar</p>
         </div>
     </div>
 {/literal}

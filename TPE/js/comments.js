@@ -1,14 +1,16 @@
 "use strict"
 const url = "http://localhost/TPEGIT/TPE-WEB2/TPE/api/comentarios";
 
-let book = document.querySelector("#book").getAttribute('dataBook');
-let user = document.querySelector("#book").getAttribute('dataUser');
+let book = document.querySelector("#info").getAttribute('dataBook');
+let idUser = document.querySelector("#info").getAttribute('dataIdUser');
+
 getComments(book);
 
 let app = new Vue({
     el: '#commentsList',
     data: {
         comments: [],
+        role: ''
     },
     methods: {
         eliminarComentario: function(comment) {
@@ -17,14 +19,6 @@ let app = new Vue({
     }
 })
 
-let appform = new Vue({
-    el: '#commentForm',
-    methods: {
-        enviarComentario: function() {
-            sendComment();
-        }
-    }
-})
 
 //----------------------------------  GET  -----------------------------------//
 async function getComments(book) {
@@ -48,7 +42,7 @@ async function sendComment() {
             let newComment = {
                 "comment": comment.value,
                 "score": score.value,
-                "id_user": user,
+                "id_user": idUser,
                 "id_book": book
             }
             let res = await fetch(url, {
@@ -80,10 +74,23 @@ async function deleteComment(comment) {
     }
 }
 
+assignRole();
 
-function accesoDenegado() {
-    let cuadroMsg = document.querySelector("#msg");
-    cuadroMsg.classList.remove("noShow");
-    cuadroMsg.innerHTML = `<p>"No tiene acceso para esa petición"</p>`;
-    setTimeout(function() { cuadroMsg.classList.add("noShow"); }, 3000);
+function assignRole() {
+    let roleUser = document.querySelector("#info").getAttribute('dataRoleUser');
+    if (roleUser != null) {
+        app.role = roleUser;
+
+
+        let appform = new Vue({
+            el: '#commentForm',
+            methods: {
+                enviarComentario: function() {
+                    sendComment();
+                }
+            }
+        })
+    } else {
+        app.role = "normal";
+    }
 }

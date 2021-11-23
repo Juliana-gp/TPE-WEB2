@@ -43,10 +43,10 @@
 
         {include file='templates/vue/commentsList.tpl'}
         {if isset($smarty.session.USERNAME)}
-            <div dataUser={$smarty.session.USERID} dataBook="{$book->Book_id}" id="book"></div>
-        {include file='templates/vue/commentForm.tpl'}
+            <div dataRoleUser={$smarty.session.ROLE} dataIdUser={$smarty.session.USERID} dataBook="{$book->Book_id}" id="info"></div>
+            {include file='templates/vue/commentForm.tpl'}
         {else}
-            <div dataBook="{$book->Book_id}" id="book"></div>
+            <div dataBook="{$book->Book_id}" id="info"></div>
         {/if}
 
     </div>
