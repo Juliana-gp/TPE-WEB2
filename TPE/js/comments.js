@@ -1,5 +1,5 @@
 "use strict"
-const url = "http://localhost/TPEGIT/TPE-WEB2/TPE/api/comentarios";
+const url = "api/comentarios";
 
 let book = document.querySelector("#info").getAttribute('dataBook');
 let idUser = document.querySelector("#info").getAttribute('dataIdUser');

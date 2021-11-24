@@ -18,7 +18,7 @@
 
             <h5><a href="genero/ver/{$fields->Genre_id}" class="link"> Ir al detalle </a></h5>
             <h5><a href="genero/" class="link"> Ir al gestor </a></h5>
-            <h5><a href="libro/filtrar/{$fields->Genre_id}" class="link">Ver libros del género</a></h5>
+            <h5><a href="libro/genero/{$fields->Genre_id}" class="link">Ver libros del género</a></h5>
 
         </form>
     </div>

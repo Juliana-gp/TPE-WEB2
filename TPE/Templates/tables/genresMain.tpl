@@ -10,7 +10,7 @@
                 </div>
                 <div>
                     <h4>{$genre->Genre}</h4>
-                    <p><a href="libro/filtrar/{$genre->Genre_id}" class="link">ver libros</a></p>
+                    <p><a href="libro/genero/{$genre->Genre_id}" class="link">ver libros</a></p>
                     <p><a href="genero/ver/{$genre->Genre_id}" class="link">ver detalle</a></p>
                 </div>
             </article>

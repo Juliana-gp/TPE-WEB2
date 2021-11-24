@@ -28,13 +28,13 @@ class BooksModel{
         return $target;
     }
 
-    function getAll(){
-        $sentence = $this->db->prepare("SELECT Book_id, Title, Author, ISBN, Cover, Genre_id FROM `books`
-        ORDER BY Title ASC");
-        $sentence->execute();
-        $books = $sentence->fetchAll(PDO::FETCH_OBJ);
-        return $books;
-    }
+    // function getAll(){
+    //     $sentence = $this->db->prepare("SELECT Book_id, Title, Author, ISBN, Cover, Genre_id FROM `books`
+    //     ORDER BY Title ASC");
+    //     $sentence->execute();
+    //     $books = $sentence->fetchAll(PDO::FETCH_OBJ);
+    //     return $books;
+    // }
 
     
     function getItem($id){
@@ -44,12 +44,38 @@ class BooksModel{
         return $item;
     }
 
-    function getByGenre($id){
-        $sentence = $this->db->prepare("SELECT * FROM books WHERE Genre_id=? ORDER BY Title ASC");
-        $sentence->execute(array($id));
+    // function getByGenre($id){
+    //     $sentence = $this->db->prepare("SELECT * FROM books WHERE Genre_id=? ORDER BY Title ASC");
+    //     $sentence->execute(array($id));
+    //     $items = $sentence->fetchAll(PDO::FETCH_OBJ);
+    //     return $items;
+    // }
+
+    function get($params = null){
+        $query = "SELECT * FROM books "; 
+        if($params){
+            $and = false;
+            foreach ($params as $key => $value) {
+                if($value != null){
+                    if($and)
+                        $query .= " AND ";
+                    else
+                        $query .= " WHERE ";
+                    if($key == 'Genre_id'){
+                        $query .= $key . "=" . $value;
+                    } else {
+                        $query .= $key . " LIKE '%" . $value . "%' ";
+                    }
+                    $and = true;
+                } 
+            }
+        }
+        $sentence = $this->db->prepare($query);
+        $sentence->execute();
         $items = $sentence->fetchAll(PDO::FETCH_OBJ);
         return $items;
     }
+
 
     function update($id, $title, $author, $ISBN, $genre, $synopsis, $cover = "") {
         if ($cover)
@@ -61,6 +87,11 @@ class BooksModel{
         $query .= "WHERE books.Book_id=?";
         $sentence = $this->db->prepare($query);
         $sentence->execute(array($id));
+    }
+
+    function updateCover($id, $cover = null){
+        $sentence = $this->db->prepare("UPDATE books SET Cover=? WHERE books.Book_id=?");
+        $sentence->execute(array($cover, $id));
     }
 
 }

@@ -3,8 +3,15 @@
 <main>
     <div class="col-30">
         <div class="cover">
-            <img src="{$fields->Cover}" alt="Tapa del libro {$fields->Title}">
+            {if $fields->Cover == null}
+                <img src="images/covers/noDisponible.jpg" alt="Imagen no disponible">
+            {else}
+                <img src="{$fields->Cover}" alt="Tapa del libro {$fields->Title}">
+            {/if}
         </div>
+        <form action="libro/editar/{$fields->Book_id}" method="post">
+            <input type="submit" name="cover" value="Eliminar foto">  
+        </form>
     </div>
 
     <div class="col-45 textos">
@@ -33,6 +40,7 @@
             <textarea type="textarea" name="synopsis" id="synopsis" placeholder="Sinopsis..." rows="10" cols="50" class="input-format" required>{$fields->Synopsis}</textarea>
 
             <input type="file" name="cover" id="cover" value="{$fields->Cover}" selected="{$fields->Cover}" class="btn">
+            
             <div>
             <input type="submit" value="Guardar cambios" id="guardar">
             <h5><a href="libro/ver/{$fields->Book_id}" class="link"> Volver al libro </a></h5>

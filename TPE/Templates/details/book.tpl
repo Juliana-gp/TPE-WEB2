@@ -8,7 +8,11 @@
         <div class="df">
             <div class="col-30">
                 <div class="cover">
-                    <img src="{$book->Cover}" alt="Tapa de {$book->Title}">
+                    {if $book->Cover == null}
+                        <img src="images/covers/noDisponible.jpg" alt="La tapa de {$book->Title} no está disponible">
+                    {else}
+                        <img src="{$book->Cover}" alt="Portada del libro {$book->Title}">
+                    {/if}     
                 </div>
             </div>
 
@@ -30,7 +34,7 @@
                         <h5><a href="libro/" class="link  no-wrap"> Ir al gestor </a></h5>
                     </div>
                 {else}
-                    <h5><a href="libro/filtrar/{$book->Genre_id}" class="link"> Ver más libros de este género... </a></h5>
+                    <h5><a href="libro/genero/{$book->Genre_id}" class="link"> Ver más libros de este género... </a></h5>
                     <h5><a href="genero/home" class="link"> Home </a></h5>
                 {/if}
 

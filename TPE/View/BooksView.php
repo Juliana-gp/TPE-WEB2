@@ -33,6 +33,12 @@
             $this->smarty->display('templates/tables/books.tpl');
         }
 
+        function search($books, $genres){
+            $this->smarty->assign('books', $books);
+            $this->smarty->assign('genres', $genres);
+            $this->smarty->display('templates/tables/search.tpl');
+        }
+
         function main($books){ 
             $this->smarty->assign('books', $books);
             $this->smarty->display('templates/tables/booksMain.tpl');

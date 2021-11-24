@@ -68,8 +68,11 @@
                 case 'editar': 
                     $booksController->update($params[2]);        //muestra el detalle editable del libro
                     break;
-                case 'filtrar':  //por género
-                    $booksController->filterByGenre($params[2]); //muestra sólo los libros del mismo género
+                case 'genero':
+                    $booksController->filter($params[2]);        //muestra sólo los libros del mismo género
+                    break;
+                case 'filtrar': 
+                    $booksController->filter();
                     break;
                 default: 
                     $booksController->showAdm();            //muestra el gestor de libros

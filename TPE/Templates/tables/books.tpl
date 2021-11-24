@@ -1,5 +1,5 @@
 {include file='templates/header.tpl'}
-</main>
+<main>
     <section>
         <h1 class="title">Libros del Género {$genre->Genre}</h1>
         <ul>

@@ -6,7 +6,11 @@
         <div class="col-30">
             <article>
                 <div class="cover">
-                    <img src="{$book->Cover}" alt="Portada del libro {$book->Title}">
+                    {if $book->Cover == null}
+                        <img src="images/covers/noDisponible.jpg" alt="La tapa de {$book->Title} no está disponible">
+                    {else}
+                        <img src="{$book->Cover}" alt="Portada del libro {$book->Title}">
+                    {/if}      
                 </div>
                 <div>
                     <h4>{$book->Title}</h4>
