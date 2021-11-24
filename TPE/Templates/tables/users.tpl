@@ -21,11 +21,14 @@
                             </td>
                             <td>
                                 <input type="radio" name="rol" value="user" {if $user->role == "user"}checked{/if} />
-                                <label for="user">User</label>
                             </td>
                             <td><input type="submit" value="Actualizar"></td>
                         </form>
-                        <td><a href="usuario/eliminar/{$user->id_user}" class="link">Eliminar</a></td>
+                        <td>
+                            <a href="usuario/eliminar/{$user->id_user}">
+                                <img class="icon" src="images/icons/trash.png" alt="Eliminar">
+                            </a>
+                        </td>
                     </tr>
                 {/foreach}
             </tbody>

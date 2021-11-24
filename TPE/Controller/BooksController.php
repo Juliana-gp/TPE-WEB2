@@ -74,10 +74,9 @@ class BooksController{
 
             $genres = $this->modelGenre->getAll();
             $books = $this->model->get($params);
-            if($books){
-                $this->view->search($books, $genres); 
+            $this->view->search($books, $genres); 
         
-            } 
+            
         }
     }
 

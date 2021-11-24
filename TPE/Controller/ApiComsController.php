@@ -26,7 +26,14 @@ class ApiComsController{
     }
 
     function getComments() {
-        $filters = array();
+        $filters = array(
+            'book' => null,
+            'score' => null,
+            'user' => null, 
+            'orderBy' => null,
+            'ASC' => null
+        );
+
         if (isset($_GET['book'])){
             $book = $this->booksModel->getItem($_GET['book']);
             if ($book)
@@ -41,9 +48,20 @@ class ApiComsController{
             else
                 return $this->view->response("El usuario por el que quiere filtrar no existe", 400);
         }
-        if (isset($_GET['puntaje']) && ($_GET['puntaje'])>=1 && ($_GET['puntaje'])<=5 ) {
-            $filters['puntaje'] = $_GET['puntaje']; 
+        if (isset($_GET['puntaje'])){
+            if (($_GET['puntaje'])>=1 && (($_GET['puntaje'])<=5 ))
+                $filters['score'] = $_GET['puntaje'];
+            else
+                return $this->view->response("Los valores indicados son erroneos", 400);
         }
+        if (isset($_GET['orderby'])) {
+            if ( ($_GET['orderby'] == "score") || ($_GET['orderby'] == "id_comment") )
+                $filters['orderBy'] = $_GET['orderby'];
+            else{
+                return $this->view->response("Los valores por los que quiere ordenar son erroneos", 400);
+            }
+        }
+        
         $comentarios = $this->model->getComments($filters);
         if ($comentarios)
             return $this->view->response($comentarios, 200);

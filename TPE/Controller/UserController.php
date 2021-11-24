@@ -65,7 +65,7 @@ class UserController{
         $this->view->showFormUsers($users, $respuesta);
     }
 
-    //Falta controlar que no se borre a si mismo
+  
     function delete($userId){
         $this->authHelper->checkAdmin();
         if ($userId != $_SESSION['USERID']){
@@ -79,7 +79,6 @@ class UserController{
         }
         else
             $this->showUsers("No se puede borrar su mismo usuario"); 
- 
     }
 
 

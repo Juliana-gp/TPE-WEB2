@@ -42,27 +42,38 @@ class ComsModel{
      * $filterName: nombre del parametro en la api rest
      * $filterField: nombre del campo en la base de datos
      */
-    private function buildQueryFilter($params, $where, $filterName, $filterField) {
-        if (isset($params[$filterName]) && $params[$filterName] != null) {
-            if ($where == '') {
-                $where .= " {$filterField} =  " . $params[$filterName]; 
-            } else {
-                $where .= " and {$filterField} =  " . $params[$filterName];
-            }      
-        }
-        return $where;
-    }
+    // private function buildQueryFilter($params, $where, $filterName, $filterField) {
+    //     if (isset($params[$filterName]) && $params[$filterName] != null) {
+    //         if ($where == '') {
+    //             $where .= " {$filterField} =  " . $params[$filterName]; 
+    //         } else {
+    //             $where .= " and {$filterField} =  " . $params[$filterName];
+    //         }      
+    //     }
+    //     return $where;
+    // }
+
+    //SELECT comments.*, users.user FROM comments 
+    //JOIN users ON comments.id_user=users.id_user 
+    //AND comments.score=5 
+    //AND comments.id_user=10 
+    //ORDER BY comments.id_comment ASC
 
     //Modifico para filtrar por libro, por usuario y por ambas
     function getComments($params = null){
-        $query = "SELECT * FROM comments ";
-        if (count($params)) {
-            $filters = $this->buildQueryFilter($params, "", 'user', 'id_user');
-            $filters = $this->buildQueryFilter($params, $filters, 'book', 'id_book');
-            if ($filters != '') {
-                $query = $query . " where " . $filters;
-            }       
-        }
+        $query = "SELECT comments.*, users.user FROM comments 
+                  JOIN users ON comments.id_user=users.id_user ";
+        if($params['book'])
+                $query .= " AND comments.id_book=" . $params['book'] ;
+        if($params['score'])
+                $query .= " AND comments.score=" . $params['score'] ;
+        if($params['user'])
+                $query .= " AND comments.id_user=" . $params['user'] ;
+        if($params['orderBy'])
+                $query .= " ORDER BY comments." . $params['orderBy'] ;
+        if($params['ASC'])
+                $query .= " ".$params['ASC'] ;
+        
         $sentence = $this->db->prepare($query);
         $sentence->execute();
         $comentarios = $sentence->fetchAll(PDO::FETCH_OBJ);
