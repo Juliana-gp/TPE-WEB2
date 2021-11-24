@@ -28,14 +28,6 @@ class BooksModel{
         return $target;
     }
 
-    // function getAll(){
-    //     $sentence = $this->db->prepare("SELECT Book_id, Title, Author, ISBN, Cover, Genre_id FROM `books`
-    //     ORDER BY Title ASC");
-    //     $sentence->execute();
-    //     $books = $sentence->fetchAll(PDO::FETCH_OBJ);
-    //     return $books;
-    // }
-
     
     function getItem($id){
         $sentence = $this->db->prepare("SELECT * FROM `books` WHERE Book_id=?");
@@ -44,14 +36,8 @@ class BooksModel{
         return $item;
     }
 
-    // function getByGenre($id){
-    //     $sentence = $this->db->prepare("SELECT * FROM books WHERE Genre_id=? ORDER BY Title ASC");
-    //     $sentence->execute(array($id));
-    //     $items = $sentence->fetchAll(PDO::FETCH_OBJ);
-    //     return $items;
-    // }
-
     function get($params = null){
+        $aux =[];
         $query = "SELECT * FROM books "; 
         if($params){
             $and = false;
@@ -62,16 +48,18 @@ class BooksModel{
                     else
                         $query .= " WHERE ";
                     if($key == 'Genre_id'){
-                        $query .= $key . "=" . $value;
+                        $query .= $key . "=" . "?";
+                        array_push($aux,$value);
                     } else {
-                        $query .= $key . " LIKE '%" . $value . "%' ";
+                        $query .= $key . " LIKE ? ";
+                        array_push($aux,"%$value%");
                     }
                     $and = true;
                 } 
             }
         }
         $sentence = $this->db->prepare($query);
-        $sentence->execute();
+        $sentence->execute($aux);
         $items = $sentence->fetchAll(PDO::FETCH_OBJ);
         return $items;
     }
@@ -93,5 +81,20 @@ class BooksModel{
         $sentence = $this->db->prepare("UPDATE books SET Cover=? WHERE books.Book_id=?");
         $sentence->execute(array($cover, $id));
     }
+
+    // function getAll(){
+    //     $sentence = $this->db->prepare("SELECT Book_id, Title, Author, ISBN, Cover, Genre_id FROM `books`
+    //     ORDER BY Title ASC");
+    //     $sentence->execute();
+    //     $books = $sentence->fetchAll(PDO::FETCH_OBJ);
+    //     return $books;
+    // }
+
+    // function getByGenre($id){
+    //     $sentence = $this->db->prepare("SELECT * FROM books WHERE Genre_id=? ORDER BY Title ASC");
+    //     $sentence->execute(array($id));
+    //     $items = $sentence->fetchAll(PDO::FETCH_OBJ);
+    //     return $items;
+    // }
 
 }

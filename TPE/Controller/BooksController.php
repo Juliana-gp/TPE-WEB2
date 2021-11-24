@@ -3,6 +3,8 @@ require_once "./View/BooksView.php";
 require_once "./Model/BooksModel.php";
 require_once "./Model/GenresModel.php";
 require_once "./Helpers/AuthHelper.php";
+require_once "./Model/ComsModel.php";
+
 
 
 class BooksController{
@@ -11,6 +13,7 @@ class BooksController{
     private $model;
     private $modelGenre;
     private $authHelper;
+    private $modelComs;
 
 
     function __construct(){
@@ -18,6 +21,7 @@ class BooksController{
         $this -> model = new BooksModel();
         $this -> modelGenre= new GenresModel();
         $this -> authHelper = new AuthHelper();
+        $this -> modelComs = new ComsModel();
     }
 
     function showHomeLocation(){
@@ -36,16 +40,15 @@ class BooksController{
     
     function delete($bookId) {
         $this->authHelper->checkAdmin();
-
-        $this->model->delete($bookId);
-        $this->showHomeLocation();
+        $coms=$this->modelComs->getCommentBook($bookId);
+        if ($coms){
+            $this->showAdm("No se puede borrar este libro porque tiene comentarios asociados");
+        }
+        else{
+            $this->model->delete($bookId);
+            $this->showAdm("Libro eliminado");
+        }
     }
-
-    // function filterByGenre($genreId){
-    //     $books = $this->model->getByGenre($genreId);
-    //     $genre = $this->modelGenre->getItem($genreId);
-    //     $this->view->list($books, $genre);
-    // }
 
     function filter($genreId = null){
         $params =  array(
@@ -74,18 +77,15 @@ class BooksController{
 
             $genres = $this->modelGenre->getAll();
             $books = $this->model->get($params);
-            $this->view->search($books, $genres); 
-        
-            
+            $this->view->search($books, $genres);     
         }
     }
 
-    function showAdm(){
+    function showAdm($msj = null){
         $this->authHelper->checkAdmin();
-
         $genres = $this->modelGenre->getNameAndId();
         $books = $this->model->get();
-        $this->view->adm($books, $genres);
+        $this->view->adm($books, $genres, $msj);
     }
 
     function showHome(){    

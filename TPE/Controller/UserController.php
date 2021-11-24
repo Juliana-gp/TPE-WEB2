@@ -69,7 +69,18 @@ class UserController{
     function delete($userId){
         $this->authHelper->checkAdmin();
         if ($userId != $_SESSION['USERID']){
-            $comsUser = $this -> modelComments -> getCommentUser($userId);
+           $comsUser = $this -> modelComments -> getCommentUser($userId);
+           /* Esta es una opción para reutilizar la consulta con filtros pero la descartamos 
+                $filters = array(
+                    'book' => null,
+                    'score' => null,
+                    'user' => $userId, 
+                    'orderBy' => null,
+                    'ASC' => null
+                );
+                $comsUser = $this -> modelComments -> getComments($filters);
+            */
+
             if (!$comsUser){
                 $this->model->deleteUser($userId);
                 $this->showUsers("Usuario eliminado");

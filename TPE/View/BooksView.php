@@ -9,9 +9,10 @@
             $this->smarty = new Smarty();   
         }
 
-        function adm($books, $genres){
+        function adm($books, $genres, $msj = null){
             $this->smarty->assign('genres', $genres);
             $this->smarty->assign('books', $books);
+            $this->smarty->assign('resp', $msj);
             $this->smarty->display('templates/tables/booksAdm.tpl');
         }
 

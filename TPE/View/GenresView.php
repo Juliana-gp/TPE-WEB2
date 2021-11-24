@@ -10,8 +10,9 @@ class GenresView{
         $this->smarty = new Smarty();   
     }
 
-    function adm($genres){
+    function adm($genres, $respuesta=null){
         $this->smarty->assign('genres', $genres);
+        $this->smarty->assign('resp', $respuesta);
         $this->smarty->display('templates/tables/genresAdm.tpl');
     }
 

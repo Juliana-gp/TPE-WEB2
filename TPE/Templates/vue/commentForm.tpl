@@ -1,21 +1,20 @@
 {literal}
     <div id="commentForm">
-        <h1 class="title">Comentar</h1>
-        <form method="post">
-        <div class="cover">
-                <select id="score">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5" selected>5</option>
-                </select>
+        <form method="post" id="newComment">
+            <div class="cover">
+                <p class="clasificacion">
+                    <input id="radio1" type="radio" name="score" value="5"><label for="radio1">★</label>
+                    <input id="radio2" type="radio" name="score" value="4"><label for="radio2">★</label>
+                    <input id="radio3" type="radio" name="score" value="3"><label for="radio3">★</label>
+                    <input id="radio4" type="radio" name="score" value="2"><label for="radio4">★</label>
+                    <input id="radio5" type="radio" name="score" value="1"><label for="radio5">★</label>
+                </p>
             </div>
             <div class="cover">
-                <textarea placeholder="Comentario..." type="textarea" rows="7" cols="40" maxlength="140" id="comment" required></textarea>
+                <textarea id="comment" placeholder="Comentario..." type="textarea" rows="7" cols="40" maxlength="140" name="comment" required></textarea>
             </div>
             <div class="cover">
-                <button v-on:click.prevent="enviarComentario" >Comentar</button>
+                <button v-on:click.prevent="enviarComentario">Comentar</button>
             </div>
         </form>
     </div>

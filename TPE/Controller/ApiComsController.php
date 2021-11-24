@@ -4,6 +4,7 @@ require_once "./Model/ComsModel.php";
 require_once "./View/ApiView.php";
 require_once "./Model/BooksModel.php";
 require_once "./Model/UserModel.php";
+require_once "./Helpers/AuthHelper.php";
 
 
 class ApiComsController{
@@ -12,12 +13,16 @@ class ApiComsController{
     private $view;
     private $userModel;
     private $booksModel;
+    private $authHelper;
+
 
     function __construct(){
         $this->model = new ComsModel();
         $this->view = new ApiView();
         $this->userModel = new UserModel();
         $this->booksModel = new BooksModel();
+        $this -> authHelper = new AuthHelper();
+
     }
 
     private function getBody() {
@@ -48,15 +53,22 @@ class ApiComsController{
             else
                 return $this->view->response("El usuario por el que quiere filtrar no existe", 400);
         }
-        if (isset($_GET['puntaje'])){
-            if (($_GET['puntaje'])>=1 && (($_GET['puntaje'])<=5 ))
-                $filters['score'] = $_GET['puntaje'];
+        if (isset($_GET['score'])){
+            if (($_GET['score'])>=1 && (($_GET['score'])<=5 ))
+                $filters['score'] = $_GET['score'];
             else
                 return $this->view->response("Los valores indicados son erroneos", 400);
         }
         if (isset($_GET['orderby'])) {
             if ( ($_GET['orderby'] == "score") || ($_GET['orderby'] == "id_comment") )
                 $filters['orderBy'] = $_GET['orderby'];
+                if (isset($_GET['order'])) {
+                    if ( ($_GET['order'] == "ASC") || ($_GET['order'] == "DESC") )
+                        $filters['ASC'] = $_GET['order'];
+                    else{
+                        return $this->view->response("No seleccionó un criterio correcto", 400);
+                    }
+                }
             else{
                 return $this->view->response("Los valores por los que quiere ordenar son erroneos", 400);
             }
@@ -66,60 +78,50 @@ class ApiComsController{
         if ($comentarios)
             return $this->view->response($comentarios, 200);
         else 
-            return $this->view->response("No hay comentarios", 204);                                 //VER RESPUESTA
+            return $this->view->response("No hay comentarios", 204);
     }
 
-    //Falta definir control usuario
     function addComment($params = null) {
         $body = $this->getBody();
         if (isset($body->comment) && isset($body->score) && isset($body->id_user) && isset($body->id_book) ){
-            $user = $this->userModel->getUserById($body->id_user);      //Ver como recibe el usuario!!!!!
+            $user = $this->userModel->getUserById($body->id_user);
             if ($user){
                 $item = $this->booksModel->getItem ($body->id_book);
                 if ($item){
                     $id = $this->model->addComment($body->comment, $body->score, $body->id_user, $body->id_book);
-    
+
                     if ($id != 0)
-                        return $this->view->response("a id=$id", 200);             // ok
+                        return $this->view->response("Se ha agregado el comentario id=$id", 200);
                     else 
-                        return $this->view->response("b", 000);                    // No se pudo insertar
+                        return $this->view->response("Hubo un error al guardar el comentario", 500);
                 } else
-                    return $this->view->response("c", 000);                        // No se encontró el item que se quiere comentar                           
+                    return $this->view->response("No existe el libro que quiere comentar", 400);                         
             } else
-                return $this->view->response("d", 000);                            // No se reconocio el id de usuario           
+                return $this->view->response("El usuario asociado al comentario no existe", 400);         
         } else
-            return $this->view->response("e", 000);                                // No estan todos los campos llenos
+            return $this->view->response("Faltan completar campos", 400);
     }
 
-    //Falta definir control ADMIN
     function deleteComment($params = null){
+        $this->authHelper->checkAdmin();
+
         $idComment = $params[":ID"];
         $comment = $this->model->getComment($idComment);
         if ($comment) {
             $this->model->deleteComment($idComment);
-            return $this->view->response("XXXXX id=$idComment fue borrado", 200);   // ok
+            $commentD = $this->model->getComment($idComment);
+            if ($commentD)
+                return $this->view->response("Hubo un problema interno al borrar el comentario", 500);
+            else
+                return $this->view->response("El comentario fue borrado correctamente", 200);
         } else {
-            return $this->view->response("XXXXX id=$idComment no existe", 404);     // no se pudo borrar
+            return $this->view->response("El comentario que intenta borrar no existe", 404);
         }
     }
 
-     //-------------------------------------------- // -------------------------------------------- // 
-    function getCommentsOrd($params = null){
-        $body = $this->getBody();
-        if (isset($body->orderBy)){ //SE PUEDE CONTROLAR QUE ESE ORDERBY SEA UN NOMBRE DE UNA COLUMNA ???
-            if ((isset($body->crit)) && (($body->crit == "ASC") || ($body->crit == "DESC")))
-                $comentarios = $this->model->getComments($body->orderBy, $body->crit);
-            else
-                $comentarios = $this->model->getComments($body->orderBy, "ASC");
-        } else 
-            $comentarios = $this->model->getComments();
-        if ($comentarios)
-            return $this->view->response($comentarios, 200);        //VER RESPUESTA
-        else 
-            return $this->view->response("XXXXX", 000);             //VER RESPUESTA
-    }
 
-    //-------------------------------------------- // -------------------------------------------- // 
+    //--------------------Estarian ok pero no las necesitamos --------------------//
+
     function editComment($params = []){
         $idComment = $params[":ID"];
         $comment = $this->model->getComment($idComment);
@@ -136,14 +138,13 @@ class ApiComsController{
         }
     }
 
-    //Estaria ok pero no lo necesitamos
     function getComment($params = null){
         $idComment = $params[":ID"];
         $comment = $this->model->getComment($idComment);
         if ($comment) {
-            return $this->view->response($comment, 200);   // ok
+            return $this->view->response($comment, 200); 
         } else {
-            return $this->view->response("XXXXX id=$idComment no existe", 404);     // no se pudo borrar
+            return $this->view->response("EL comentario con id $idComment no existe", 404);
         }
     }
 }

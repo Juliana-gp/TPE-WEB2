@@ -3,6 +3,7 @@
 <main>
     <section>
         <h1>Gestor de géneros<a href="libro/" class="grey"> / Libros </a></h1>
+        <h4>{$resp}</h4>
         <table>
             <thead>
                 <tr>

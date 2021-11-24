@@ -44,15 +44,14 @@
 
     <div class="center-content">
         <h1 class="title">Comentarios</h1>
-
         {include file='templates/vue/commentsList.tpl'}
         {if isset($smarty.session.USERNAME)}
             <div dataRoleUser={$smarty.session.ROLE} dataIdUser={$smarty.session.USERID} dataBook="{$book->Book_id}" id="info"></div>
+            <h1 class="title">Comentar</h1>
             {include file='templates/vue/commentForm.tpl'}
         {else}
             <div dataBook="{$book->Book_id}" id="info"></div>
         {/if}
-
     </div>
 </main>
 

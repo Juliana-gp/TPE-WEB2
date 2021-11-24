@@ -2,17 +2,21 @@
 require_once "./Model/GenresModel.php";
 require_once "./View/GenresView.php";
 require_once "./Helpers/AuthHelper.php";
+require_once "./Model/BooksModel.php";
 
 
 class GenresController{
     private $model;
     private $view;
     private $authHelper;
+    private $modelBook;
+
 
     function __construct(){
         $this -> model = new GenresModel();
         $this -> view = new GenresView();
-        $this ->  authHelper = new AuthHelper();
+        $this -> authHelper = new AuthHelper();
+        $this -> modelBook = new BooksModel();
     }
 
     function showHomeLocation(){
@@ -28,15 +32,19 @@ class GenresController{
 
     function delete($id){
         $this->authHelper->checkAdmin();
-
-        $this->model->delete($id);
-        $this->showHomeLocation();
+        $books = $this->modelBook->get(array('Genre_id'=>$id));
+        if ($books){    
+            $this->showAdm("El género que quiere borrrar tiene libros");
+        }else{          
+            $this->model->delete($id);
+            $this->showAdm("El género ha sido borrado");
+        }
     }
 
-    function showAdm(){
+    function showAdm($respuesta=null){
         $this->authHelper->checkAdmin();
         $genres = $this->model->getAll();
-        $this->view->adm($genres);
+        $this->view->adm($genres, $respuesta);
     }
 
     function showHome($respuesta = null){

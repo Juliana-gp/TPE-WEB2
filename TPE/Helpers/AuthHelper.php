@@ -23,6 +23,13 @@ class AuthHelper{
             die();
     }
 
+    function checkLog(){
+        if ( (isset($_SESSION['USERNAME']) && ($_SESSION['ROLE'] == "admin")) )
+            return true;
+        else
+            return false;
+    }
+    
     function logout(){
 
         session_destroy();

@@ -4,6 +4,7 @@
 
     <section>
         <h1>Gestor de libros<a href="genero/" class="grey"> / Géneros </a></h1>
+        <h4>{$resp}</h4>
         <table>
             <thead>
                 <tr>

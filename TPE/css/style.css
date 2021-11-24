@@ -69,7 +69,8 @@ aside {
     margin-top: 7%;
 }
 
-.cover {
+.cover,
+.center100 {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -79,12 +80,6 @@ aside {
     width: 70%;
 }
 
-.comment{
-    background-color: rgb(206, 197, 197);
-    width: 70%;
-
-    
-}
 
 /*___textos del detalle*/
 
@@ -187,12 +182,52 @@ header {
     font-weight: bolder;
 }
 
-#msg {
-    background-color: rgba(70, 52, 52, 0.6);
-    position: fixed;
-    z-index: 5000;
-    right: 0;
-    bottom: 0;
-    color: white;
-    padding: 0% 4%;
+
+/*-----------*-----------*----------*-----------*-----------*/
+
+.comment {
+    width: 90%;
+    background-color: #cec5c5;
+    padding: 2%;
+    margin: 3%;
+}
+
+.eliminarCom {
+    color: slategray;
+    margin: 0%;
+    padding: 1em;
+    text-align: right;
+}
+
+
+/*-----------*-----------*----------*-----------*-----------*/
+
+.clasificacion {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+}
+
+.clasificacion input[type="radio"] {
+    display: none;
+}
+
+.clasificacion label {
+    color: grey;
+}
+
+.clasificacion label:hover {
+    color: rgb(243, 195, 150);
+}
+
+.clasificacion label:hover~label {
+    color: rgb(243, 195, 150);
+}
+
+.clasificacion input[type="radio"]:checked~label {
+    color: rgb(243, 195, 150);
+}
+
+.filter {
+    color: slategray;
+    font-size: small;
 }

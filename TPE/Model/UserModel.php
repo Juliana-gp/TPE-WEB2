@@ -46,7 +46,4 @@ class UserModel{
         $users = $sentence->fetchAll(PDO::FETCH_OBJ);
         return $users; 
     }
-
-  
-
 }
